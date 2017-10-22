@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.google.code.maven-replacer-plugin</groupId>
-	<artifactId>replacer</artifactId>
+	<groupId>io.github.bakersemail</groupId>
+	<artifactId>replacer-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 	<version>1.5.4-SNAPSHOT</version>
-	<url>http://code.google.com/p/maven-replacer-plugin</url>
-	<name>maven-replacer-plugin Maven Mojo</name>
+	<url>https://github.com/bakersemail/maven-replacer-plugin</url>
+	<name>replacer-maven-plugin Maven Plugin</name>
 
 	<parent>
 		<artifactId>oss-parent</artifactId>
@@ -18,9 +18,9 @@
 		Maven plugin to replace tokens in a given file with a value
 	</description>
 	<scm>
-		<url>https://maven-replacer-plugin.googlecode.com/svn/</url>
-		<connection>scm:svn:https://maven-replacer-plugin.googlecode.com/svn/</connection>
-		<developerConnection>scm:svn:https://maven-replacer-plugin.googlecode.com/svn/</developerConnection>
+		<url>https://github.com/bakersemail/maven-replacer-plugin.git</url>
+		<connection>scm:git:https://github.com/bakersemail/maven-replacer-plugin.git</connection>
+		<developerConnection>scm:git:https://github.com/bakersemail/maven-replacer-plugin.git</developerConnection>
 	</scm>
 	<licenses>
 		<license>
@@ -38,7 +38,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	</licenses>
 
 	<issueManagement>
-		<url>http://code.google.com/p/maven-replacer-plugin</url>
+		<url>https://github.com/bakersemail/maven-replacer-plugin</url>
 	</issueManagement>
 	<distributionManagement>
     		<repository>
@@ -73,15 +73,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.2.1</version>
-				<configuration>
-					<tagBase>https://maven-replacer-plugin.googlecode.com/svn/tags</tagBase>
-					<mavenExecutorId>forked-path</mavenExecutorId>
 				</configuration>
 			</plugin>
 			<plugin>
