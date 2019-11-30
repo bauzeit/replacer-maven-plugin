@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.github.bakersemail</groupId>
-	<artifactId>replacer-maven-plugin</artifactId>
-	<packaging>maven-plugin</packaging>
-	<version>1.5.4-SNAPSHOT</version>
-	<url>https://github.com/bakersemail/maven-replacer-plugin</url>
-	<name>replacer-maven-plugin Maven Plugin</name>
 
 	<parent>
 		<artifactId>oss-parent</artifactId>
 		<groupId>org.sonatype.oss</groupId>
 		<version>7</version>
+		<relativePath/>
 	</parent>
+
+	<groupId>com.github.bauzeit</groupId>
+	<artifactId>replacer-maven-plugin</artifactId>
+	<packaging>maven-plugin</packaging>
+	<version>1.5.4-SNAPSHOT</version>
+	<url>https://github.com/bauzeit/replacer-maven-plugin</url>
+	<name>replacer-maven-plugin</name>
 
 	<description>
 		Maven plugin to replace tokens in a given file with a value
 	</description>
 	<scm>
-		<url>https://github.com/bakersemail/maven-replacer-plugin.git</url>
-		<connection>scm:git:https://github.com/bakersemail/maven-replacer-plugin.git</connection>
-		<developerConnection>scm:git:https://github.com/bakersemail/maven-replacer-plugin.git</developerConnection>
+		<url>https://github.com/bauzeit/replacer-maven-plugin.git</url>
+		<connection>scm:git:https://github.com/bauzeit/replacer-maven-plugin.git</connection>
+		<developerConnection>scm:git:https://github.com/bauzeit/replacer-maven-plugin.git</developerConnection>
 	</scm>
 	<licenses>
 		<license>
@@ -38,7 +43,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	</licenses>
 
 	<issueManagement>
-		<url>https://github.com/bakersemail/maven-replacer-plugin</url>
+		<url>https://github.com/bauzeit/replacer-maven-plugin</url>
 	</issueManagement>
 	<distributionManagement>
     		<repository>
@@ -56,34 +61,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	</developers>
 
 	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>dashboard-maven-plugin</artifactId>
-					<version>1.0.0-beta-1</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.8.1</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>dashboard-maven-plugin</artifactId>
-				<version>1.0.0-beta-1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-plugin-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.6.0</version>
 				<executions>
 					<execution>
 						<id>generated-helpmojo</id>
@@ -101,9 +92,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>2.6</version>
+				<version>3.12.0</version>
 				<configuration>
-					<targetJdk>1.5</targetJdk>
+					<targetJdk>1.8</targetJdk>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -113,52 +104,45 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
-			<version>3.0.3</version>
-			<scope>compile</scope>
+			<version>3.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.8.2</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>1.10.7</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-			<scope>compile</scope>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.12.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.10</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.8.5</version>
-			<type>jar</type>
+			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.1</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.8.0</version>
-        </dependency>
-		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.1</version>
-			<type>jar</type>
+			<version>1.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
