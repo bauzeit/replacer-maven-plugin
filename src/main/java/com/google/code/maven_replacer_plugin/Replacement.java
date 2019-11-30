@@ -2,7 +2,7 @@ package com.google.code.maven_replacer_plugin;
 
 import java.io.IOException;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.google.code.maven_replacer_plugin.file.FileUtils;
 

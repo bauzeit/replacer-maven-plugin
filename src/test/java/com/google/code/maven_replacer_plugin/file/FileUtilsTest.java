@@ -1,17 +1,18 @@
 package com.google.code.maven_replacer_plugin.file;
 
 import static java.util.Arrays.asList;
-import static org.apache.commons.lang.StringUtils.join;
+import static org.apache.commons.lang3.StringUtils.join;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.text.StringStartsWith.startsWith;
+import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -65,7 +66,7 @@ public class FileUtilsTest {
 	public void shouldWriteToFileEnsuringFolderStructureExists() throws Exception {
 		String tempFile = System.getProperty("java.io.tmpdir") + "/" + UUID.randomUUID() + "/tempfile";
 		fileUtils.writeToFile(tempFile, CONTENT, "UTF-8");
-		assertThat(org.apache.commons.io.FileUtils.readFileToString(new File(tempFile)), equalTo(CONTENT));
+		assertThat(org.apache.commons.io.FileUtils.readFileToString(new File(tempFile), Charset.defaultCharset()), equalTo(CONTENT));
 	}
 	
 	@Test

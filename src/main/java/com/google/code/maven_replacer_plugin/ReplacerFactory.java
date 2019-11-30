@@ -1,6 +1,6 @@
 package com.google.code.maven_replacer_plugin;
 
-import static org.apache.commons.lang.StringUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 
 public class ReplacerFactory {

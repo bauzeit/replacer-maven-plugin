@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class FileSelectorTest {
 	public void shouldSelectFilesInBackDirectories() throws IOException {
 		File file = new File(BACK_DIR_SYMBOL + File.separator + TEST_FILE);
 		file.deleteOnExit();
-		FileUtils.writeStringToFile(file, BASE_DIR);
+		FileUtils.writeStringToFile(file, BASE_DIR, Charset.defaultCharset());
 		
 		List<String> files = selector.listIncludes(BACK_DIR_SYMBOL, asList(TEST_FILE), null);
 		assertThat(files, equalTo(asList(TEST_FILE)));

@@ -21,7 +21,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 import org.junit.Before;
@@ -58,7 +58,7 @@ public class ReplacerMojoIntegrationTest {
 	public void setUp() throws Exception {
 		filenameAndPath = createTempFile(TOKEN);
 		log = mock(Log.class);
-		xml = scrub(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(XPATH_TEST_FILE)));
+		xml = scrub(IOUtils.toString(getClass().getClassLoader().getResourceAsStream(XPATH_TEST_FILE), ENCODING));
 		
 		mojo = new ReplacerMojo() {
 			@Override
@@ -76,7 +76,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -99,7 +99,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -114,7 +114,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setReplacements(asList(replacement));
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(valueWithSpacing));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -130,7 +130,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setRegexFlags(asList("CASE_INSENSITIVE"));
 		mojo.execute();
 
-		String results = scrub(FileUtils.readFileToString(new File(filenameAndPath)));
+		String results = scrub(FileUtils.readFileToString(new File(filenameAndPath), ENCODING));
 		assertThat(results, equalTo(EXPECTED_XPATH));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -146,7 +146,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setRegex(false);
 		mojo.execute();
 
-		String results = scrub(FileUtils.readFileToString(new File(filenameAndPath)));
+		String results = scrub(FileUtils.readFileToString(new File(filenameAndPath), ENCODING));
 		assertThat(results, equalTo(EXPECTED_XPATH));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -165,7 +165,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setReplacements(asList(replacement));
 		mojo.execute();
 
-		String results = scrub(FileUtils.readFileToString(new File(filenameAndPath)));
+		String results = scrub(FileUtils.readFileToString(new File(filenameAndPath), ENCODING));
 		assertThat(results, equalTo(EXPECTED_XPATH));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -180,7 +180,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(xml));
 		//XML parser produces localized error messages!
 		verify(log).error(argThat(containsString(": 'bad', 'xpath'")));
@@ -195,7 +195,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(TOKEN));
 		verify(log).info("Replacement run on 0 file.");
 	}
@@ -209,7 +209,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setTokenValueMap(tokenValueMap);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(TOKEN));
 		verify(log).info("Replacement run on 0 file.");
 	}
@@ -223,7 +223,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setTokenValueMap(tokenValueMap);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo("group 123 backreferenced"));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -238,7 +238,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setDelimiters(asList("@", "${*}"));
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE + " and " + VALUE));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -253,7 +253,7 @@ public class ReplacerMojoIntegrationTest {
 		try {
 			mojo.execute();
 		} catch (PatternSyntaxException e) {
-			String results = FileUtils.readFileToString(new File(filenameAndPath));
+			String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 			assertThat(results, equalTo("@" + TOKEN + "@ and ${" + TOKEN + "}"));
 			verify(log).error(argThat(containsString("Error: Illegal repetition near index 0")));
 			verify(log).info("Replacement run on 0 file.");
@@ -270,7 +270,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setEncoding(ENCODING);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log, never()).info(anyString());
 		verify(log).debug("Replacement run on ." + File.separator + filenameAndPath + 
@@ -287,7 +287,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setUnescape(true);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE + "\n987"));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -300,7 +300,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setToken(System.getProperty("line.separator"));
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo("test123"));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -315,7 +315,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -327,7 +327,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue("$1" + VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(TOKEN + VALUE));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -341,7 +341,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setOutputDir(OUTPUT_DIR);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File("./" + OUTPUT_DIR + filenameAndPath));
+		String results = FileUtils.readFileToString(new File("./" + OUTPUT_DIR + filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log).info("Replacement run on 1 file.");
 	}
@@ -375,7 +375,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValueFile(valueFilename);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -387,7 +387,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setFile(filenameAndPath);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -399,7 +399,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setFile(filenameAndPath);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -411,7 +411,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setIncludes(asList(filenameAndPath));
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -425,7 +425,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(inputFile + ".replaced"));
+		String results = FileUtils.readFileToString(new File(inputFile + ".replaced"), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log).info("Replacement run on 1 file.");	
 	}
@@ -440,7 +440,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(inputFile + ".replaced"));
+		String results = FileUtils.readFileToString(new File(inputFile + ".replaced"), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log).info("Replacement run on 1 file.");	
 	}
@@ -455,7 +455,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(inputFile + ".replaced"));
+		String results = FileUtils.readFileToString(new File(inputFile + ".replaced"), ENCODING);
 		assertThat(results, equalTo(VALUE));
 		verify(log).info("Replacement run on 1 file.");	
 	}
@@ -468,7 +468,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setFile(filenameAndPath);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -482,7 +482,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setFile(filenameAndPath);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -496,15 +496,15 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String include1Results = FileUtils.readFileToString(new File(include1));
+		String include1Results = FileUtils.readFileToString(new File(include1), ENCODING);
 		assertThat(include1Results, equalTo(VALUE));
-		String include2Results = FileUtils.readFileToString(new File(include2));
+		String include2Results = FileUtils.readFileToString(new File(include2), ENCODING);
 		assertThat(include2Results, equalTo(VALUE));
 	}
 
     @Test
     public void shouldOnlyReplaceUpToMaxReplacements() throws Exception {
-        String randomBase = String.valueOf(RandomUtils.nextInt(10));
+        String randomBase = String.valueOf(RandomUtils.nextInt(0, 10));
         String include1 = createTempFile(randomBase + "/prefix1", TOKEN);
         String include2 = createTempFile(randomBase + "/prefix2", TOKEN);
         List<String> includes = asList("target/" + randomBase + "**/prefix*");
@@ -516,8 +516,8 @@ public class ReplacerMojoIntegrationTest {
         mojo.setValue(VALUE);
         mojo.execute();
 
-        String include1Results = FileUtils.readFileToString(new File(include1));
-        String include2Results = FileUtils.readFileToString(new File(include2));
+        String include1Results = FileUtils.readFileToString(new File(include1), ENCODING);
+        String include2Results = FileUtils.readFileToString(new File(include2), ENCODING);
         System.out.println(include1Results);
         System.out.println(include2Results);
         assertTrue((TOKEN.equals(include1Results) && VALUE.equals(include2Results))
@@ -539,11 +539,11 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String include1Results = FileUtils.readFileToString(new File(include1));
+		String include1Results = FileUtils.readFileToString(new File(include1), ENCODING);
 		assertThat(include1Results, equalTo(VALUE));
-		String include2Results = FileUtils.readFileToString(new File(include2));
+		String include2Results = FileUtils.readFileToString(new File(include2), ENCODING);
 		assertThat(include2Results, equalTo(VALUE));
-		String excludeResults = FileUtils.readFileToString(new File(exclude));
+		String excludeResults = FileUtils.readFileToString(new File(exclude), ENCODING);
 		assertThat(excludeResults, equalTo(TOKEN));
 	}
 	
@@ -561,14 +561,14 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setValue(VALUE);
 		mojo.execute();
 		
-		String include1Results = FileUtils.readFileToString(new File(include1));
+		String include1Results = FileUtils.readFileToString(new File(include1), ENCODING);
 		assertThat(include1Results, equalTo(VALUE));
-		String include2Results = FileUtils.readFileToString(new File(include2));
+		String include2Results = FileUtils.readFileToString(new File(include2), ENCODING);
 		assertThat(include2Results, equalTo(VALUE));
-		String excludeResults = FileUtils.readFileToString(new File(exclude));
+		String excludeResults = FileUtils.readFileToString(new File(exclude), ENCODING);
 		assertThat(excludeResults, equalTo(TOKEN));
 	}
-	
+
 	@Test
 	public void shouldReplaceIncludesThatAreAbsolutePaths() throws Exception {
 		String include1 = createTempFile("test/prefix1", TOKEN);
@@ -580,11 +580,11 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setToken(TOKEN);
 		mojo.setValue(VALUE);
 		mojo.execute();
-		
-		String include1Results = FileUtils.readFileToString(new File(include1));
+
+		String include1Results = FileUtils.readFileToString(new File(include1), ENCODING);
 		assertThat(include1Results, equalTo(VALUE));
 	}
-	
+
 	@Test
 	public void shouldReplaceContentsAndWriteToOutputFile() throws Exception {
 		String outputFilename = createTempFile("");
@@ -595,7 +595,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setOutputFile(outputFilename);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(outputFilename));
+		String results = FileUtils.readFileToString(new File(outputFilename), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -610,7 +610,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setFile(filenameAndPath);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(filenameAndPath));
+		String results = FileUtils.readFileToString(new File(filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -623,7 +623,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setOutputDir(OUTPUT_DIR);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File("target/outputBasedir/" + OUTPUT_DIR + filenameAndPath));
+		String results = FileUtils.readFileToString(new File("target/outputBasedir/" + OUTPUT_DIR + filenameAndPath), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -637,7 +637,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setOutputFile(tmpFile);
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(tmpFile));
+		String results = FileUtils.readFileToString(new File(tmpFile), ENCODING);
 		assertThat(results, equalTo(VALUE));
 	}
 	
@@ -652,7 +652,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setOutputFile("target/pom-replaced.xml");
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(mojo.getOutputFile()));
+		String results = FileUtils.readFileToString(new File(mojo.getOutputFile()), ENCODING);
 		assertThat(results, containsString("<version>1.5.1-SNAPSHOT</version>"));
 	}
 	
@@ -667,7 +667,7 @@ public class ReplacerMojoIntegrationTest {
 		mojo.setOutputFile("target/attr-xpath-replaced.xml");
 		mojo.execute();
 		
-		String results = FileUtils.readFileToString(new File(mojo.getOutputFile()));
+		String results = FileUtils.readFileToString(new File(mojo.getOutputFile()), ENCODING);
 		assertThat(results, containsString("<person name=\"value\" other=\"token\"/>"));
 		assertThat(results, containsString("<other name=\"value\" other=\"token\"/>"));
 		assertThat(results, containsString("<other other=\"token\"/>"));
@@ -683,7 +683,7 @@ public class ReplacerMojoIntegrationTest {
 		String fullname = "target/" + filename + new Random().nextInt();
 		utils.ensureFolderStructureExists(fullname);
 		File file = new File(fullname);
-		FileUtils.writeStringToFile(file, contents);
+		FileUtils.writeStringToFile(file, contents, ENCODING);
 		file.deleteOnExit();
 		return fullname;
 	}

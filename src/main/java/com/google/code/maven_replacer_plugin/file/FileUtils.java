@@ -1,7 +1,7 @@
 package com.google.code.maven_replacer_plugin.file;
 
-import static org.apache.commons.lang.StringUtils.isBlank;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,19 +28,12 @@ public class FileUtils {
 	}
 
 	public String readFile(String file, String encoding) throws IOException {
-		if (encoding != null) {
-			return org.apache.commons.io.FileUtils.readFileToString(new File(file), encoding);
-		}
-		return org.apache.commons.io.FileUtils.readFileToString(new File(file));
+		return org.apache.commons.io.FileUtils.readFileToString(new File(file), encoding);
 	}
 
 	public void writeToFile(String outputFile, String content, String encoding) throws IOException {
 		ensureFolderStructureExists(outputFile);
-		if (encoding != null) { 
-			org.apache.commons.io.FileUtils.writeStringToFile(new File(outputFile), content, encoding);
-		} else {
-			org.apache.commons.io.FileUtils.writeStringToFile(new File(outputFile), content);
-		}
+		org.apache.commons.io.FileUtils.writeStringToFile(new File(outputFile), content, encoding);
 	}
 	
 	public String createFullPath(String... dirsAndFilename) {

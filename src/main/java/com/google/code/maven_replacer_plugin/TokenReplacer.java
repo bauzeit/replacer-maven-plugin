@@ -1,7 +1,7 @@
 package com.google.code.maven_replacer_plugin;
 
-import static org.apache.commons.lang.StringUtils.defaultString;
-import static org.apache.commons.lang.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.defaultString;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.util.regex.Pattern;
 
