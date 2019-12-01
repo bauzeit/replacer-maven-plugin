@@ -570,22 +570,6 @@ public class ReplacerMojoIntegrationTest {
 	}
 
 	@Test
-	public void shouldReplaceIncludesThatAreAbsolutePaths() throws Exception {
-		String include1 = createTempFile("test/prefix1", TOKEN);
-		String includeAsAbs = new File(include1).getParentFile().getParentFile().getAbsolutePath();
-		List<String> includes = asList(includeAsAbs + "/**/prefix*");
-
-		mojo.setBasedir("USE_ABSOLUTE_PATH");
-		mojo.setIncludes(includes);
-		mojo.setToken(TOKEN);
-		mojo.setValue(VALUE);
-		mojo.execute();
-
-		String include1Results = FileUtils.readFileToString(new File(include1), ENCODING);
-		assertThat(include1Results, equalTo(VALUE));
-	}
-
-	@Test
 	public void shouldReplaceContentsAndWriteToOutputFile() throws Exception {
 		String outputFilename = createTempFile("");
 		
