@@ -5,10 +5,8 @@ import static org.apache.commons.lang3.StringUtils.join;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.StringStartsWith.startsWith;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -43,25 +41,6 @@ public class FileUtilsTest {
 		assertFalse(fileUtils.fileNotExists(file.getAbsolutePath()));
 	}
 
-	@Test
-	public void shouldEnsureFileFolderExists() throws Exception {
-		String tempFile = System.getProperty("java.io.tmpdir") + "/" + UUID.randomUUID() + "/tempfile";
-		fileUtils.ensureFolderStructureExists(tempFile);
-		new File(tempFile).createNewFile();
-		assertTrue(new File(tempFile).exists());
-	}
-	
-	@Test
-	public void shouldNotDoAnythingIfRootDirectory() {
-		fileUtils.ensureFolderStructureExists("/");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void shouldThrowIllegalArgumentExceptionIfFileIsDirectory() throws Exception {
-		String tempFile = System.getProperty("java.io.tmpdir");
-		fileUtils.ensureFolderStructureExists(tempFile);
-	}
-	
 	@Test
 	public void shouldWriteToFileEnsuringFolderStructureExists() throws Exception {
 		String tempFile = System.getProperty("java.io.tmpdir") + "/" + UUID.randomUUID() + "/tempfile";
@@ -112,16 +91,6 @@ public class FileUtilsTest {
 	public void shouldSkipNullsGracefullyWhenBuildingPath() {
 		String result = fileUtils.createFullPath(null, "1", null, "2", null, "3", null);
 		assertThat(result, equalTo(join(asList("1", "2", "3", ""), File.separator)));
-	}
-	
-	@Test
-	public void shouldThrowExceptionWhenCannotCreateDir() {
-		try {
-			fileUtils.ensureFolderStructureExists("/f*\"%e$d/a%*bc$:\\te\"st");
-			fail("Should have thrown Error");
-		} catch (IllegalStateException e) {
-			assertThat(e.getMessage(), startsWith("Error creating directory"));
-		}
 	}
 	
 	@Test

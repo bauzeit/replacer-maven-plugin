@@ -11,29 +11,14 @@ public class FileUtils {
 		return isBlank(filename) || !new File(filename).exists();
 	}
 
-	public void ensureFolderStructureExists(String file) {
-		File outputFile = new File(file);
-		if (outputFile.getParent() == null) {
-			return;
-		}
-
-		if (!outputFile.isDirectory()) {
-			File parentPath = new File(outputFile.getParent());
-			if (!parentPath.exists() && !parentPath.mkdirs()) {
-				throw new IllegalStateException("Error creating directory: " + parentPath);
-			}
-		} else {
-			throw new IllegalArgumentException("outputFile cannot be a directory: " + file);
-		}
-	}
-
 	public String readFile(String file, String encoding) throws IOException {
 		return org.apache.commons.io.FileUtils.readFileToString(new File(file), encoding);
 	}
 
 	public void writeToFile(String outputFile, String content, String encoding) throws IOException {
-		ensureFolderStructureExists(outputFile);
-		org.apache.commons.io.FileUtils.writeStringToFile(new File(outputFile), content, encoding);
+		File file = new File(outputFile);
+		org.apache.commons.io.FileUtils.forceMkdirParent(file);
+		org.apache.commons.io.FileUtils.writeStringToFile(file, content, encoding);
 	}
 	
 	public String createFullPath(String... dirsAndFilename) {

@@ -663,10 +663,9 @@ public class ReplacerMojoIntegrationTest {
 	}
 	
 	private String createTempFile(String filename, String contents) throws IOException {
-		com.google.code.maven_replacer_plugin.file.FileUtils utils = new com.google.code.maven_replacer_plugin.file.FileUtils();
 		String fullname = "target/" + filename + new Random().nextInt();
-		utils.ensureFolderStructureExists(fullname);
 		File file = new File(fullname);
+		FileUtils.forceMkdirParent(file);
 		FileUtils.writeStringToFile(file, contents, ENCODING);
 		file.deleteOnExit();
 		return fullname;
